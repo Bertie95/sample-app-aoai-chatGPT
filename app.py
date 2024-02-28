@@ -43,9 +43,7 @@ UI_CHAT_DESCRIPTION = (
 )
 UI_FAVICON = os.environ.get("UI_FAVICON") or "/favicon.ico"
 UI_SHOW_SHARE_BUTTON = os.environ.get("UI_SHOW_SHARE_BUTTON", "true").lower() == "true"
-UI_SHOW_HISTORY = (
-    os.environ.get("UI_SHOW_HISTORY", "true").lower() == "true"
-)
+UI_SHOW_HISTORY = os.environ.get("UI_SHOW_HISTORY", "true").lower() == "true"
 
 
 def create_app():
@@ -961,6 +959,7 @@ async def update_message():
     request_json = await request.get_json()
     message_id = request_json.get("message_id", None)
     message_feedback = request_json.get("message_feedback", None)
+    message_comment = request_json.get("message_comment", None)
     try:
         if not message_id:
             return jsonify({"error": "message_id is required"}), 400
@@ -970,7 +969,7 @@ async def update_message():
 
         ## update the message in cosmos
         updated_message = await cosmos_conversation_client.update_message_feedback(
-            user_id, message_id, message_feedback
+            user_id, message_id, message_feedback, message_comment
         )
         if updated_message:
             return (
@@ -1047,7 +1046,6 @@ async def list_conversations():
     offset = request.args.get("offset", 0)
     authenticated_user = get_authenticated_user_details(request_headers=request.headers)
     user_id = authenticated_user["user_principal_id"]
-
     ## make sure cosmos is configured
     cosmos_conversation_client = init_cosmosdb_client()
     if not cosmos_conversation_client:
@@ -1055,7 +1053,7 @@ async def list_conversations():
 
     ## get the conversations from cosmos
     conversations = await cosmos_conversation_client.get_conversations(
-        user_id, offset=offset, limit=25
+        user_id, offset=offset, limit=0
     )
     await cosmos_conversation_client.cosmosdb_client.close()
     if not isinstance(conversations, list):
