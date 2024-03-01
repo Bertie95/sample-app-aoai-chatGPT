@@ -397,7 +397,9 @@ def get_configured_data_source():
             userToken = request.headers.get("X-MS-TOKEN-AAD-ACCESS-TOKEN", "")
             logging.debug(f"USER TOKEN is {'present' if userToken else 'not present'}")
             if not userToken:
-                raise Exception("Document-level access control is enabled, but user access token could not be fetched.")
+                raise Exception(
+                    "Document-level access control is enabled, but user access token could not be fetched."
+                )
 
             filter = generateFilterString(userToken)
             logging.debug(f"FILTER: {filter}")
@@ -960,6 +962,7 @@ async def update_message():
     ## check request for message_id
     request_json = await request.get_json()
     message_id = request_json.get("message_id", None)
+    message_rating = request_json.get("message_rating", None)
     message_feedback = request_json.get("message_feedback", None)
     message_comment = request_json.get("message_comment", None)
     try:
@@ -971,7 +974,7 @@ async def update_message():
 
         ## update the message in cosmos
         updated_message = await cosmos_conversation_client.update_message_feedback(
-            user_id, message_id, message_feedback, message_comment
+            user_id, message_id, message_rating, message_feedback, message_comment
         )
         if updated_message:
             return (

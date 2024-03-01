@@ -158,6 +158,7 @@ class CosmosConversationClient:
         }
 
         if self.enable_message_feedback:
+            message["rating"] = ""
             message["feedback"] = ""
             message["comment"] = ""
 
@@ -173,11 +174,14 @@ class CosmosConversationClient:
         else:
             return False
 
-    async def update_message_feedback(self, user_id, message_id, feedback, comment):
+    async def update_message_feedback(
+        self, user_id, message_id, rating, feedback, comment
+    ):
         message = await self.container_client.read_item(
             item=message_id, partition_key=user_id
         )
         if message:
+            message["rating"] = rating
             message["feedback"] = feedback
             message["comment"] = comment
             resp = await self.container_client.upsert_item(message)
