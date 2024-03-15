@@ -110,8 +110,8 @@ Check the SKU in the same way. Use the abbreviated SKU name in the argument belo
 
 Then, use these commands to deploy your local code to the existing app:
 
-1. `az webapp up --runtime <runtime-stack> --sku <sku> --name <existing-app-name> --resource-group <resource-group-name>`
-1. `az webapp config set --startup-file "python3 -m gunicorn app:app" --name <existing-app-name>`
+1. `az webapp up --runtime PYTHON:3.11 --sku B1 --name wapp-aai-dev-cpf-llm-01 --resource-group rg-aai-dev-cpfllm-01 --plan asp-wapp-aai-dev-cpf-llm-01`
+1. `az webapp config set --startup-file "python3 -m gunicorn app:app" --name wapp-aai-dev-cpf-llm-01 --resource-group rg-aai-dev-cpfllm-01`
 
 Make sure that the app name and resource group match exactly for the app that was previously deployed.
 

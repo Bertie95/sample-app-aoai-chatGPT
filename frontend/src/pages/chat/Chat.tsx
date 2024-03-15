@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useContext, useLayoutEffect } from "react";
 import { CommandBarButton, IconButton, Dialog, DialogType, Stack } from "@fluentui/react";
-import { SquareRegular, ShieldLockRegular, ErrorCircleRegular } from "@fluentui/react-icons";
+import { SquareRegular, ShieldLockRegular, ErrorCircleRegular, WarningRegular } from "@fluentui/react-icons";
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from 'remark-gfm'
@@ -638,6 +638,15 @@ const Chat = () => {
             ) : (
                 <Stack horizontal className={styles.chatRoot}>
                     <div className={styles.chatContainer}>
+                        {/* EDIT - add banner for POV  */}
+                        <h2 className={styles.chatBanner}>
+                            <WarningRegular className={styles.bannerIcon} style={{ color: 'white', height: "44px", width: "44px" }} />
+                            <div>
+                                WARNING! This is a legacy tool, due to be decomissioned on 29th March 2024. <br />
+                                If you have any queries, please contact: <a href="mailto:desdigital-aai-artintel-support@mod.gov.uk" target="_blank" style={{ color: 'white' }}>desdigital-aai-artintel-support@mod.gov.uk</a>
+                            </div>
+                            <WarningRegular className={styles.bannerIcon} style={{ color: 'white', height: "44px", width: "44px" }} />
+                        </h2>
                         {!messages || messages.length < 1 ? (
                             <Stack className={styles.chatEmptyState}>
                                 <img
@@ -733,29 +742,30 @@ const Chat = () => {
                                     disabled={disabledButton()}
                                     aria-label="start a new chat button"
                                 />}
-                                {ui?.show_history && <CommandBarButton
-                                    role="button"
-                                    styles={{
-                                        icon: {
-                                            color: '#FFFFFF',
-                                        },
-                                        iconDisabled: {
-                                            color: "#BDBDBD !important",
-                                        },
-                                        root: {
-                                            color: '#FFFFFF',
-                                            background: "radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)",
-                                        },
-                                        rootDisabled: {
-                                            background: "#F0F0F0"
-                                        }
-                                    }}
-                                    className={appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured ? styles.clearChatBroom : styles.clearChatBroomNoCosmos}
-                                    iconProps={{ iconName: 'Refresh' }}
-                                    onClick={appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured ? clearChat : newChat}
-                                    disabled={disabledButton()}
-                                    aria-label="clear chat button"
-                                />}
+                                {(ui?.show_history || appStateContext?.state.isCosmosDBAvailable?.status == CosmosDBStatus.NotConfigured) &&
+                                    <CommandBarButton
+                                        role="button"
+                                        styles={{
+                                            icon: {
+                                                color: '#FFFFFF',
+                                            },
+                                            iconDisabled: {
+                                                color: "#BDBDBD !important",
+                                            },
+                                            root: {
+                                                color: '#FFFFFF',
+                                                background: "radial-gradient(109.81% 107.82% at 100.1% 90.19%, #0F6CBD 33.63%, #2D87C3 70.31%, #8DDDD8 100%)",
+                                            },
+                                            rootDisabled: {
+                                                background: "#F0F0F0"
+                                            }
+                                        }}
+                                        className={appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured ? styles.clearChatBroom : styles.clearChatBroomNoCosmos}
+                                        iconProps={{ iconName: 'Refresh' }}
+                                        onClick={appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured ? clearChat : newChat}
+                                        disabled={disabledButton()}
+                                        aria-label="clear chat button"
+                                    />}
                                 <Dialog
                                     hidden={hideErrorDialog}
                                     onDismiss={handleErrorDialogClose}

@@ -35,6 +35,27 @@
     align-items: center;
 }
 
+.chatBanner {
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #58247c;
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+.bannerIcon {
+    height: auto;
+    width: auto;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
 .chatEmptyStateTitle {
     font-style: normal;
     font-weight: 700;
@@ -281,7 +302,7 @@
     color: #323130;
     margin-top: 12px;
     margin-bottom: 12px;
-} 
+}
 
 .citationPanelTitle:hover {
     text-decoration: underline;
@@ -298,7 +319,7 @@
     order: 1;
     align-self: stretch;
     flex-grow: 0;
-} 
+}
 
 a {
     padding-left: 5px;
