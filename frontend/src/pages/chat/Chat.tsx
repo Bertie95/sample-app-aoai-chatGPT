@@ -642,8 +642,8 @@ const Chat = () => {
                         <h2 className={styles.chatBanner}>
                             <WarningRegular className={styles.bannerIcon} style={{ color: 'white', height: "44px", width: "44px" }} />
                             <div>
-                                WARNING! This is a legacy tool, due to be decomissioned on 29th March 2024. <br />
-                                If you have any queries, please contact: <a href="mailto:desdigital-aai-artintel-support@mod.gov.uk" target="_blank" style={{ color: 'white' }}>desdigital-aai-artintel-support@mod.gov.uk</a>
+                                WARNING! This is a legacy tool, due to be decomissioned on 3rd May 2024. <br />
+                                For the new and updated tool, please go to: <a href="https://dev-sonacllm.desdigital.mod.uk" target="_blank" style={{ color: 'white' }}>dev-sonacllm.desdigital.mod.uk</a>
                             </div>
                             <WarningRegular className={styles.bannerIcon} style={{ color: 'white', height: "44px", width: "44px" }} />
                         </h2>
